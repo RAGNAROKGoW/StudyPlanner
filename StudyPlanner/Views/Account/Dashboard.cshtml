@@ -1,0 +1,32 @@
+﻿@model StudyPlanner.Models.User
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h3 class="mb-3">Welcome, @Model.FullName</h3>
+
+            <p><strong>Email:</strong> @Model.Email</p>
+            <p><strong>Account Created:</strong> @Model.CreatedAt</p>
+
+            <hr />
+
+            <div class="d-flex gap-3">
+                <button class="btn btn-outline-primary" disabled>
+                    View Study Plan
+                </button>
+
+                <button class="btn btn-outline-secondary" disabled>
+                    Update Profile
+                </button>
+
+                <a href="/Account/Logout" class="btn btn-danger">
+                    Logout
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
