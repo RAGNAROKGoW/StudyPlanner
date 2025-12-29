@@ -21,6 +21,7 @@ namespace StudyPlanner.Controllers
         public IActionResult Register(User user)
         {
             user.PasswordHash = HashPassword(user.PasswordHash);
+            user.CreatedAt = DateTime.Now;
             _context.Users.Add(user);
             _context.SaveChanges();
             return RedirectToAction("Login");
@@ -33,8 +34,10 @@ namespace StudyPlanner.Controllers
         {
             string hashed = HashPassword(password);
 
-            var user = _context.Users
-                .FirstOrDefault(u => u.Email == email && u.PasswordHash == hashed);
+            var user = _context.Users.FirstOrDefault(
+                u => u.Email == email && u.PasswordHash == hashed
+            );
+
 
             if (user != null)
             {
@@ -74,5 +77,38 @@ namespace StudyPlanner.Controllers
             return Convert.ToBase64String(
                 sha.ComputeHash(Encoding.UTF8.GetBytes(password)));
         }
+
+        public IActionResult EditProfile()
+        {
+            int? userId = HttpContext.Session.GetInt32("UserId");
+
+            if (userId == null)
+                return RedirectToAction("Login");
+
+            var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
+            return View(user);
+        }
+
+        [HttpPost]
+        public IActionResult EditProfile(User updatedUser)
+        {
+            int? userId = HttpContext.Session.GetInt32("UserId");
+
+            if (userId == null)
+                return RedirectToAction("Login");
+
+            var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
+
+            if (user != null)
+            {
+                user.FullName = updatedUser.FullName;
+                user.Email = updatedUser.Email;
+
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("Dashboard");
+        }
+
     }
 }

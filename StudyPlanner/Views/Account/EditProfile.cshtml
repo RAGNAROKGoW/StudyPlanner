@@ -1,0 +1,23 @@
+﻿@model StudyPlanner.Models.User
+
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+
+<div class="container mt-5" style="max-width:450px;">
+    <h3 class="mb-4 text-center">Edit Profile</h3>
+
+    <form method="post">
+        <div class="mb-3">
+            <label>Full Name</label>
+            <input class="form-control" name="FullName" value="@Model.FullName" required />
+        </div>
+
+        <div class="mb-3">
+            <label>Email</label>
+            <input type="email" class="form-control" name="Email" value="@Model.Email" required />
+        </div>
+
+        <button class="btn btn-primary w-100">Update</button>
+    </form>
+</div>
