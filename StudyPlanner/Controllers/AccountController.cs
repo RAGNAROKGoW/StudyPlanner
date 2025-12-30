@@ -89,6 +89,26 @@ namespace StudyPlanner.Controllers
             return View(user);
         }
 
+        public IActionResult DeleteAccount()
+        {
+            int? userId = HttpContext.Session.GetInt32("UserId");
+
+            if (userId == null)
+                return RedirectToAction("Login");
+
+            var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
+
+            if (user != null)
+            {
+                _context.Users.Remove(user);
+                _context.SaveChanges();
+            }
+
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
+        }
+
+
         [HttpPost]
         public IActionResult EditProfile(User updatedUser)
         {
